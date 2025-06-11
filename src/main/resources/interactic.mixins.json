@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.kofeychi.interactic.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EventsMixin",
+    "FiguraAPIManagerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

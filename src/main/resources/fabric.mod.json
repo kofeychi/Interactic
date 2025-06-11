@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "interactic",
+  "version": "${version}",
+  "name": "Interactic",
+  "description": "Figura plugin that adds a transparent screen.",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/interactic/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.kofeychi.interactic.Interactic"
+    ]
+  },
+  "mixins": [
+    "interactic.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "figura": "*"
+  }
+}
