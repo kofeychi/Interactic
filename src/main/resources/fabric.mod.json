@@ -12,6 +12,9 @@
   "entrypoints": {
     "main": [
       "dev.kofeychi.interactic.Interactic"
+    ],
+    "figura_api": [
+      "dev.kofeychi.interactic.FiguraPlugin"
     ]
   },
   "mixins": [

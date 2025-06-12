@@ -1,5 +1,6 @@
 package dev.kofeychi.interactic;
 
+import dev.kofeychi.interactic.figura.event.*;
 import org.figuramc.figura.avatar.Avatar;
 import org.figuramc.figura.entries.FiguraAPI;
 import org.figuramc.figura.entries.annotations.FiguraAPIPlugin;
@@ -11,8 +12,9 @@ import java.util.List;
 @LuaWhitelist
 public class FiguraPlugin implements FiguraAPI {
 
-    public FiguraPlugin(Avatar avatar) {
-    }
+    public FiguraPlugin() {}
+
+    public FiguraPlugin(Avatar avatar) {}
 
     public static void init() {}
 
@@ -28,7 +30,17 @@ public class FiguraPlugin implements FiguraAPI {
 
     @Override
     public Collection<Class<?>> getWhitelistedClasses() {
-        return List.of(FiguraPlugin.class);
+        return List.of(
+                FiguraPlugin.class,
+                KeyPressEventData.class,
+                KeyReleasedEventData.class,
+                MouseDraggedEventData.class,
+                MouseMovedEventData.class,
+                MousePressEventData.class,
+                MouseReleasedEventData.class,
+                MouseScrollEventData.class,
+                ScreenRenderEventData.class
+        );
     }
 
     @Override

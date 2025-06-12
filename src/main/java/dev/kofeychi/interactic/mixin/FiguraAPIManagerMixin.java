@@ -1,8 +1,7 @@
 package dev.kofeychi.interactic.mixin;
 
 import dev.kofeychi.interactic.figura.ScreenAPI;
-import dev.kofeychi.interactic.figura.event.KeyPressEventData;
-import dev.kofeychi.interactic.figura.event.MousePressEventData;
+import dev.kofeychi.interactic.figura.event.*;
 import dev.kofeychi.interactic.util.Classes;
 import org.figuramc.figura.lua.FiguraAPIManager;
 import org.figuramc.figura.lua.FiguraLuaRuntime;
@@ -28,14 +27,15 @@ public class FiguraAPIManagerMixin {
 
     static {
         WHITELISTED_CLASSES.add(ScreenAPI.class);
-        List<Class> classes = null;
-        try {
-            classes = Classes.getClasses("dev.kofeychi.interactic.figura.event",null);
-        } catch (Exception e) {
-        }
-        classes.forEach(clazz -> {
-            WHITELISTED_CLASSES.add(clazz);
-        });
+
+        WHITELISTED_CLASSES.add(KeyPressEventData.class);
+        WHITELISTED_CLASSES.add(KeyReleasedEventData.class);
+        WHITELISTED_CLASSES.add(MouseDraggedEventData.class);
+        WHITELISTED_CLASSES.add(MouseMovedEventData.class);
+        WHITELISTED_CLASSES.add(MousePressEventData.class);
+        WHITELISTED_CLASSES.add(MouseReleasedEventData.class);
+        WHITELISTED_CLASSES.add(MouseScrollEventData.class);
+        WHITELISTED_CLASSES.add(ScreenRenderEventData.class);
 
         API_GETTERS.put("screen", ScreenAPI::new);
     }
