@@ -11,65 +11,46 @@ action = mainPage:newAction()
 --function events.SCREEN_RENDER(ctx)
 --        if(screen:isCurrentScreenInteractic()) then
 --            log(ctx)
---            a = ctx.position
---            b = ctx.delta
 --        end
 --    end
 function events.SCREEN_TICK()
     if(screen:isCurrentScreenInteractic()) then
-        log("tick")
         -- ничего | nothing
     end
 end
 function events.MOUSE_PRESS(ctx)
     if(screen:isCurrentScreenInteractic()) then
         log(ctx)
-        a = ctx.position
-        b = ctx.button
     end
 end
 function events.KEY_PRESS(ctx)
     if(screen:isCurrentScreenInteractic()) then
         log(ctx)
-        a = ctx.keycode
-        b = ctx.scancode
-        c = ctx.modifiers
     end
 end
 function events.KEY_RELEASE(ctx)
     if(screen:isCurrentScreenInteractic()) then
         log(ctx)
-        a = ctx.keycode
-        b = ctx.scancode
-        c = ctx.modifiers
     end
 end
 function events.MOUSE_RELEASE(ctx)
     if(screen:isCurrentScreenInteractic()) then
         log(ctx)
-        a = ctx.position
-        b = ctx.button
     end
 end
 function events.MOUSE_DRAGGED(ctx)
     if(screen:isCurrentScreenInteractic()) then
         log(ctx)
-        a = ctx.position
-        b = ctx.delta
-        c = ctx.button
     end
 end
 function events.MOUSE_SCROLLED(ctx)
     if(screen:isCurrentScreenInteractic()) then
         log(ctx)
-        a = ctx.position
-        b = ctx.amount
     end
 end
 function events.MOUSE_MOVED(ctx)
     if(screen:isCurrentScreenInteractic()) then
         log(ctx)
-        a = ctx.position
     end
 end
 aa = screen:getCurrentScreen()
