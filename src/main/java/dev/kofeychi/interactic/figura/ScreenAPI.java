@@ -5,10 +5,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import org.figuramc.figura.avatar.Avatar;
 import org.figuramc.figura.lua.FiguraLuaRuntime;
+import org.figuramc.figura.lua.LuaTypeManager;
 import org.figuramc.figura.lua.LuaWhitelist;
 import org.figuramc.figura.lua.docs.LuaMethodDoc;
 import org.figuramc.figura.lua.docs.LuaTypeDoc;
 import org.figuramc.figura.math.vector.FiguraVec2;
+import org.luaj.vm2.LuaNil;
 
 @LuaWhitelist
 @LuaTypeDoc(name = "ScreenAPI", value = "screen")
@@ -31,6 +33,12 @@ public class ScreenAPI {
             value = "screen.getCurrentScreen"
     )
     public String getCurrentScreen() {
+        if(!canExecute()){
+            return LuaNil.NIL.toString();
+        }
+        if(!hasScreen()){
+            return LuaNil.NIL.toString();
+        }
         return MinecraftClient.getInstance().currentScreen.getTitle().getLiteralString();
     }
     @LuaWhitelist
@@ -40,6 +48,9 @@ public class ScreenAPI {
             value = "screen.isCurrentScreenInteractic"
     )
     public boolean isCurrentScreenInteractic() {
+        if(!canExecute()){
+            return false;
+        }
         return MinecraftClient.getInstance().currentScreen instanceof InteractionScreen&&MinecraftClient.getInstance().currentScreen != null;
     }
     @LuaWhitelist
@@ -49,6 +60,9 @@ public class ScreenAPI {
             value = "screen.setScreenToInteractic"
     )
     public boolean setScreenToInteractic() {
+        if(!canExecute()){
+            return false;
+        }
         MinecraftClient.getInstance().setScreen(new InteractionScreen(
                 Text.empty(),
                 MinecraftClient.getInstance().currentScreen
@@ -62,6 +76,9 @@ public class ScreenAPI {
             value = "screen.getCurrentScreenWidth"
     )
     public int getCurrentScreenWidth() {
+        if(!canExecute()){
+            return 0;
+        }
         if(!hasScreen()) {
             return 0;
         }
@@ -74,6 +91,9 @@ public class ScreenAPI {
             value = "screen.getCurrentScreenHeight"
     )
     public int getCurrentScreenHeight() {
+        if(!canExecute()){
+            return 0;
+        }
         if(!hasScreen()) {
             return 0;
         }
@@ -86,6 +106,9 @@ public class ScreenAPI {
             value = "screen.getCurrentWindowHeight"
     )
     public int getCurrentWindowHeight() {
+        if(!canExecute()){
+            return 0;
+        }
         if(!hasScreen()) {
             return 0;
         }
@@ -98,6 +121,9 @@ public class ScreenAPI {
             value = "screen.getCurrentWindowWidth"
     )
     public int getCurrentWindowWidth() {
+        if(!canExecute()){
+            return 0;
+        }
         if(!hasScreen()) {
             return 0;
         }
@@ -110,6 +136,9 @@ public class ScreenAPI {
             value = "screen.getCurrentWindowScaledHeight"
     )
     public int getCurrentWindowScaledHeight() {
+        if(!canExecute()){
+            return 0;
+        }
         if(!hasScreen()) {
             return 0;
         }
@@ -122,6 +151,9 @@ public class ScreenAPI {
             value = "screen.getCurrentWindowScaledWidth"
     )
     public int getCurrentWindowScaledWidth() {
+        if(!canExecute()){
+            return 0;
+        }
         if(!hasScreen()) {
             return 0;
         }
@@ -134,6 +166,9 @@ public class ScreenAPI {
             value = "screen.getCurrentWindowPosition"
     )
     public FiguraVec2 getCurrentWindowPosition() {
+        if(!canExecute()){
+            return FiguraVec2.of(0,0);
+        }
         if(!hasScreen()) {
             return FiguraVec2.of(0,0);
         }
@@ -144,6 +179,9 @@ public class ScreenAPI {
 
     public boolean hasScreen() {
         return MinecraftClient.getInstance().currentScreen != null;
+    }
+    public boolean canExecute() {
+        return MinecraftClient.getInstance().isWindowFocused() && hasScreen();
     }
 
     @Override
