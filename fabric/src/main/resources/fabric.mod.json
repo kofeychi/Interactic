@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${display_name}",
+  "description": "${description}",
+  "mixins": [
+    "interactic.mixins.json"
+  ],
+  "authors": [
+    "${authors}"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.kofeychi.interactic.Interactic"
+    ],
+    "client": [
+      "dev.kofeychi.interactic.InteracticClient"
+    ],
+    "figura_api": [
+      "dev.kofeychi.interactic.FiguraPlugin"
+    ]
+  },
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.21",
+    "figura": "*"
+  }
+}
