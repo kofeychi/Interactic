@@ -5,6 +5,8 @@ import org.figuramc.figura.lua.api.event.LuaEvent;
 public interface Events {
     LuaEvent InteracticAPI$SCREEN_TICK();
     LuaEvent InteracticAPI$SCREEN_RENDER();
+    LuaEvent InteracticAPI$SCREEN_INIT();
+    LuaEvent InteracticAPI$SCREEN_CLEAR();
 
     LuaEvent InteracticAPI$KEY_PRESS();
     LuaEvent InteracticAPI$KEY_RELEASE();

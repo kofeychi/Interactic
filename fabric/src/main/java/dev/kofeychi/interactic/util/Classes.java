@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 public class Classes {
-    public static List<Class> getClasses(String packageName,ClassLoader classLoaderOptional)
+    public static List<Class<?>> getClasses(String packageName,ClassLoader classLoaderOptional)
             throws ClassNotFoundException, IOException {
         ClassLoader classLoader;
         if(classLoaderOptional==null) {
@@ -26,14 +26,14 @@ public class Classes {
             URL resource = resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
-        ArrayList<Class> classes = new ArrayList<>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName));
         }
         return classes;
     }
-    private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
-        List<Class> classes = new ArrayList<Class>();
+    private static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
+        List<Class<?>> classes = new ArrayList<>();
         if (!directory.exists()) {
             return classes;
         }

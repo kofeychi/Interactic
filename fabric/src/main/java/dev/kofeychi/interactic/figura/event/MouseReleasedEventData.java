@@ -14,6 +14,16 @@ public class MouseReleasedEventData {
     public FiguraVec2 position;
 
     @LuaWhitelist
+    public FiguraVec2 getPosition() {
+        return position;
+    }
+
+    @LuaWhitelist
+    public int getButton() {
+        return button;
+    }
+
+    @LuaWhitelist
     @LuaFieldDoc("mouse_release_event.button")
     public int button;
 

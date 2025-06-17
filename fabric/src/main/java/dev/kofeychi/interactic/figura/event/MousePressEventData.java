@@ -17,6 +17,16 @@ public class MousePressEventData {
     @LuaFieldDoc("mouse_press_event.button")
     public int button;
 
+    @LuaWhitelist
+    public FiguraVec2 getPosition() {
+        return position;
+    }
+
+    @LuaWhitelist
+    public int getButton() {
+        return button;
+    }
+
     public MousePressEventData(InteractionScreen.MousePressData event) {
         this.position = FiguraVec2.of(event.mouseX(), event.mouseY());
         this.button = event.button();

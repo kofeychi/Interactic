@@ -1,13 +1,13 @@
 package dev.kofeychi.interactic.util.shape;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import dev.kofeychi.interactic.util.Rangeable;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Matrix4f;
 import org.joml.Vector2d;
 
 import java.util.ArrayList;
@@ -40,13 +40,20 @@ public class AbstractShape {
         }
         return false;
     }
-    /*
-    public void draw(float y, boolean in, VertexConsumer buffer,Vec3d camera,MatrixStack matrixStack,Camera cam,VertexConsumerProvider.Immediate vertexConsumers) {
+    public void draw(Vector2d pos, DrawContext drawContext) {
         if(points.size() > 3) {
-            int color = in ? Colors.GREEN : Colors.RED;
+            int color = isInside(pos) ? Colors.GREEN : Colors.RED;
             points.forEach((point) -> {
-                renderSmallCubeFrame(buffer, camera, new Vec3d(point.x, y, point.y), color, 0.1, 1);
+                drawContext.drawBorder(
+                        (int) (point.x-3),
+                        (int) (point.y-3),
+                        7,
+                        7,
+                        color
+                );
             });
+            var buf = drawContext.getVertexConsumers().getBuffer(RenderLayer.getGui());
+            Matrix4f matrix4f = drawContext.getMatrices().peek().getPositionMatrix();
             Rangeable rangeable1 = new Rangeable(0, points.size(), 0);
             Rangeable rangeable2 = new Rangeable(0, points.size(), 1);
             for (int i = 0; i <= points.size(); i++) {
@@ -55,56 +62,10 @@ public class AbstractShape {
                 Vector2d v1 = points.get(rangeable1.range.getFirst());
                 Vector2d v2 = points.get(rangeable2.range.getFirst());
 
-                float scale = 0f;
-
-                MatrixStack ms = new MatrixStack();
-                ms.translate(
-                        v1.x - camera.x,
-                        y - camera.y,
-                        v1.y - camera.z
-                );
-                ms.scale(scale, scale, scale);
-
-                MatrixStack ms2 = new MatrixStack();
-                ms2.translate(
-                        v2.x - camera.x,
-                        y - camera.y,
-                        v2.y - camera.z
-                );
-                ms2.scale(scale, scale, scale);
-
-                buffer.vertex(ms.peek(), (float) v1.x, y, (float) v1.y).color(color).normal(0, 0, 0);
-                buffer.vertex(ms2.peek(), (float) v2.x, y, (float) v2.y).color(color).normal(0, 0, 0);
+                buf.vertex(matrix4f,(float) v1.x, (float) 0, (float) v1.y).color(color);
+                buf.vertex(matrix4f,(float) v2.x, (float) 0, (float) v2.y).color(color);
             }
+            drawContext.tryDraw();
         }
     }
-    public static void renderSmallCubeFrame(
-            VertexConsumer vertexConsumer, Vec3d cameraPos, Vec3d boxCenter,
-            int color, double scale,float mscale
-    ) {
-        MatrixStack ms = new MatrixStack();
-        ms.translate(
-                boxCenter.x - cameraPos.x,
-                boxCenter.y - cameraPos.y,
-                boxCenter.z - cameraPos.z
-        );
-        ms.scale(mscale,mscale,mscale);
-
-        float alpha = ((color >> 24) & 0xff) / 255f;
-        float red = ((color >> 16) & 0xff) / 255f;
-        float green = ((color >> 8) & 0xff) / 255f;
-        float blue = (color & 0xff) / 255f;
-        WorldRenderer.drawBox(
-                ms,
-                vertexConsumer,
-                -scale / 2,
-                -scale / 2,
-                -scale / 2,
-                scale / 2,
-                scale / 2,
-                scale / 2,
-                red, green, blue, alpha
-        );
-    }
-     */
 }

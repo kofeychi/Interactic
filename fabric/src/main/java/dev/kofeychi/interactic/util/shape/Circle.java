@@ -21,7 +21,7 @@ public class Circle extends AbstractShape {
                     VectorUtils.RotateAround(
                             new Vector2d(),
                             pointOffset,
-                            degrees
+                            degrees*i
                     ).add(origin)
             );
         }

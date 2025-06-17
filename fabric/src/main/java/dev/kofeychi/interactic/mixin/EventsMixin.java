@@ -64,6 +64,14 @@ public class EventsMixin implements Events {
     @LuaWhitelist
     @LuaFieldDoc("events.MOUSE_DRAGGED")
     public LuaEvent Interactic$MOUSE_MOVED;
+    @Unique
+    @LuaWhitelist
+    @LuaFieldDoc("events.SCREEN_INIT")
+    public LuaEvent Interactic$SCREEN_INIT;
+    @Unique
+    @LuaWhitelist
+    @LuaFieldDoc("events.SCREEN_CLEAR")
+    public LuaEvent Interactic$SCREEN_CLEAR;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void events(CallbackInfo ci) {
@@ -76,6 +84,8 @@ public class EventsMixin implements Events {
         Interactic$MOUSE_SCROLLED = new LuaEvent();
         Interactic$MOUSE_MOVED = new LuaEvent();
         Interactic$SCREEN_RENDER = new LuaEvent();
+        Interactic$SCREEN_INIT = new LuaEvent();
+        Interactic$SCREEN_CLEAR = new LuaEvent();
         events.put("SCREEN_TICK", Interactic$SCREEN_TICK);
         events.put("KEY_PRESS", Interactic$KEY_PRESS);
         events.put("MOUSE_PRESS", Interactic$MOUSE_PRESS);
@@ -85,6 +95,8 @@ public class EventsMixin implements Events {
         events.put("MOUSE_SCROLLED", Interactic$MOUSE_SCROLLED);
         events.put("MOUSE_MOVED", Interactic$MOUSE_MOVED);
         events.put("SCREEN_RENDER", Interactic$SCREEN_RENDER);
+        events.put("SCREEN_INIT", Interactic$SCREEN_INIT);
+        events.put("SCREEN_CLEAR", Interactic$SCREEN_CLEAR);
     }
 
     @Override
@@ -95,6 +107,16 @@ public class EventsMixin implements Events {
     @Override
     public LuaEvent InteracticAPI$SCREEN_RENDER() {
         return Interactic$SCREEN_RENDER;
+    }
+
+    @Override
+    public LuaEvent InteracticAPI$SCREEN_INIT() {
+        return Interactic$SCREEN_INIT;
+    }
+
+    @Override
+    public LuaEvent InteracticAPI$SCREEN_CLEAR() {
+        return Interactic$SCREEN_CLEAR;
     }
 
     @Override

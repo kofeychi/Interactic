@@ -34,4 +34,19 @@ public class KeyPressEventData {
                 ", modifiers=" + modifiers +
                 '}';
     }
+
+    @LuaWhitelist
+    public int getKeycode() {
+        return keycode;
+    }
+
+    @LuaWhitelist
+    public int getScancode() {
+        return scancode;
+    }
+
+    @LuaWhitelist
+    public int getModifiers() {
+        return modifiers;
+    }
 }

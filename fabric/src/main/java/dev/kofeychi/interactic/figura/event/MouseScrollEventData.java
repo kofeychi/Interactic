@@ -17,6 +17,16 @@ public class MouseScrollEventData {
     @LuaFieldDoc("mouse_scroll_event.amount")
     public FiguraVec2 amount;
 
+    @LuaWhitelist
+    public FiguraVec2 getPosition() {
+        return position;
+    }
+
+    @LuaWhitelist
+    public FiguraVec2 getAmount() {
+        return amount;
+    }
+
     public MouseScrollEventData(InteractionScreen.MouseScrolledData event) {
         this.position = FiguraVec2.of(event.mouseX(), event.mouseY());
         this.amount = FiguraVec2.of(event.horizontalAmount(), event.verticalAmount());

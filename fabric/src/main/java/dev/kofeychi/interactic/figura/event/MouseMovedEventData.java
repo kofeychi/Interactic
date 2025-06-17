@@ -13,6 +13,11 @@ public class MouseMovedEventData {
     @LuaFieldDoc("mouse_moved_event.position")
     public FiguraVec2 position;
 
+    @LuaWhitelist
+    public FiguraVec2 getPosition() {
+        return position;
+    }
+
     public MouseMovedEventData(InteractionScreen.MouseMovedData event) {
         this.position = FiguraVec2.of(event.mouseX(), event.mouseY());
     }

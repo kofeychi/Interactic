@@ -14,15 +14,11 @@ import org.luaj.vm2.LuaNil;
 @LuaWhitelist
 @LuaTypeDoc(name = "ScreenAPI", value = "screen")
 public class ScreenAPI {
-    private final FiguraLuaRuntime runtime;
     private final Avatar owner;
-    private final boolean isHost;
 
 
     public ScreenAPI(FiguraLuaRuntime runtime) {
-        this.runtime = runtime;
         this.owner = runtime.owner;
-        this.isHost = runtime.owner.isHost;
     }
 
     @LuaWhitelist
@@ -58,15 +54,15 @@ public class ScreenAPI {
             },
             value = "screen.setScreenToInteractic"
     )
-    public boolean setScreenToInteractic() {
-        if(!canExecute()){
-            return false;
+    public ScreenAPI setScreenToInteractic() {
+        if(!canExecuteWS()){
+            return this;
         }
         MinecraftClient.getInstance().setScreen(new InteractionScreen(
                 Text.empty(),
                 MinecraftClient.getInstance().currentScreen
         ));
-        return true;
+        return this;
     }
     @LuaWhitelist
     @LuaMethodDoc(
@@ -76,9 +72,6 @@ public class ScreenAPI {
     )
     public int getCurrentScreenWidth() {
         if(!canExecute()){
-            return 0;
-        }
-        if(!hasScreen()) {
             return 0;
         }
         return MinecraftClient.getInstance().currentScreen.width;
@@ -93,9 +86,6 @@ public class ScreenAPI {
         if(!canExecute()){
             return 0;
         }
-        if(!hasScreen()) {
-            return 0;
-        }
         return MinecraftClient.getInstance().currentScreen.height;
     }
     @LuaWhitelist
@@ -106,9 +96,6 @@ public class ScreenAPI {
     )
     public int getCurrentWindowHeight() {
         if(!canExecute()){
-            return 0;
-        }
-        if(!hasScreen()) {
             return 0;
         }
         return MinecraftClient.getInstance().getWindow().getHeight();
@@ -123,9 +110,6 @@ public class ScreenAPI {
         if(!canExecute()){
             return 0;
         }
-        if(!hasScreen()) {
-            return 0;
-        }
         return MinecraftClient.getInstance().getWindow().getWidth();
     }
     @LuaWhitelist
@@ -136,9 +120,6 @@ public class ScreenAPI {
     )
     public int getCurrentWindowScaledHeight() {
         if(!canExecute()){
-            return 0;
-        }
-        if(!hasScreen()) {
             return 0;
         }
         return MinecraftClient.getInstance().getWindow().getScaledHeight();
@@ -153,9 +134,6 @@ public class ScreenAPI {
         if(!canExecute()){
             return 0;
         }
-        if(!hasScreen()) {
-            return 0;
-        }
         return MinecraftClient.getInstance().getWindow().getScaledWidth();
     }
     @LuaWhitelist
@@ -166,9 +144,6 @@ public class ScreenAPI {
     )
     public FiguraVec2 getCurrentWindowPosition() {
         if(!canExecute()){
-            return FiguraVec2.of(0,0);
-        }
-        if(!hasScreen()) {
             return FiguraVec2.of(0,0);
         }
         var win = MinecraftClient.getInstance().getWindow();
@@ -182,9 +157,12 @@ public class ScreenAPI {
     public boolean canExecute() {
         return MinecraftClient.getInstance().isWindowFocused() && hasScreen();
     }
+    public boolean canExecuteWS() {
+        return MinecraftClient.getInstance().isWindowFocused();
+    }
 
     @Override
     public String toString() {
-        return "ScreenAPI";
+        return this.getClass().getSimpleName();
     }
 }

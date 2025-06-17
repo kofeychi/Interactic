@@ -1,16 +1,28 @@
 package dev.kofeychi.interactic.screen;
 
 import dev.kofeychi.interactic.Events;
+import dev.kofeychi.interactic.figura.api.DrawAPI;
 import dev.kofeychi.interactic.figura.event.*;
+import dev.kofeychi.interactic.util.shape.AbstractShape;
+import dev.kofeychi.interactic.util.shape.Box;
+import dev.kofeychi.interactic.util.shape.Circle;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
 import org.figuramc.figura.FiguraMod;
 import org.figuramc.figura.avatar.Avatar;
 import org.figuramc.figura.avatar.AvatarManager;
 import org.figuramc.figura.lua.api.event.LuaEvent;
+import org.joml.Vector2d;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.List;
 
 public class InteractionScreen extends Screen {
 
@@ -22,13 +34,33 @@ public class InteractionScreen extends Screen {
     }
 
     @Override
+    protected void init() {
+        Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
+        if(avatar == null||avatar.luaRuntime == null) {
+            return;
+        }
+        LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$SCREEN_INIT();
+        avatar.run(keyEvent, avatar.tick);
+    }
+
+    @Override
+    public void removed() {
+        Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
+        if(avatar == null||avatar.luaRuntime == null) {
+            return;
+        }
+        LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$SCREEN_CLEAR();
+        avatar.run(keyEvent, avatar.tick);
+    }
+
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             this.client.setScreen(this.parent);
             return true;
         } else {
             Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-            if(avatar.luaRuntime == null) {
+            if(avatar == null||avatar.luaRuntime == null) {
                 return true;
             }
             LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$KEY_PRESS();
@@ -36,12 +68,13 @@ public class InteractionScreen extends Screen {
         }
         return true;
     }
+
     public record KeyPressData(int keyCode, int scanCode, int modifiers) {}
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return true;
         }
         LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$KEY_RELEASE();
@@ -53,7 +86,7 @@ public class InteractionScreen extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return true;
         }
         LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$MOUSE_PRESS();
@@ -66,7 +99,7 @@ public class InteractionScreen extends Screen {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return true;
         }
         LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$MOUSE_DRAGGED();
@@ -78,7 +111,7 @@ public class InteractionScreen extends Screen {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return true;
         }
         LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$MOUSE_RELEASE();
@@ -90,7 +123,7 @@ public class InteractionScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return true;
         }
         LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$MOUSE_SCROLLED();
@@ -102,7 +135,7 @@ public class InteractionScreen extends Screen {
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return;
         }
         LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$MOUSE_MOVED();
@@ -113,11 +146,11 @@ public class InteractionScreen extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return;
         }
         LuaEvent keyEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$SCREEN_RENDER();
-        avatar.run(keyEvent, avatar.tick, new ScreenRenderEventData(new RenderData(mouseX,mouseY,delta)));
+        avatar.run(keyEvent, avatar.tick, new DrawAPI(context,this.client.getRenderTickCounter()),new ScreenRenderEventData(new RenderData(mouseX,mouseY,delta)));
     }
     public record RenderData(double mouseX, double mouseY, double delta) {}
 
@@ -125,7 +158,7 @@ public class InteractionScreen extends Screen {
     @Override
     public void tick() {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
-        if(avatar.luaRuntime == null) {
+        if(avatar == null||avatar.luaRuntime == null) {
             return;
         }
         LuaEvent legacyMicrophoneEvent = ((Events) avatar.luaRuntime.events).InteracticAPI$SCREEN_TICK();
@@ -168,5 +201,10 @@ public class InteractionScreen extends Screen {
 
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+    }
+
+    @Override
+    public boolean shouldPause() {
+        return false;
     }
 }

@@ -23,6 +23,7 @@
       "dev.kofeychi.interactic.FiguraPlugin"
     ]
   },
+  "accessWidener" : "interactic.accesswidener",
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.21",

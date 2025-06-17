@@ -1,28 +1,31 @@
 package dev.kofeychi.interactic.util;
 
+import org.figuramc.figura.lua.LuaWhitelist;
+
+@LuaWhitelist
 public final class Color {
     private final int color;
 
     private Color(int color) {
         this.color = color;
     }
-
+    @LuaWhitelist
     public static Color ofTransparent(int color) {
         return new Color(color);
     }
-
+    @LuaWhitelist
     public static Color ofOpaque(int color) {
         return new Color(0xFF000000 | color);
     }
-
+    @LuaWhitelist
     public static Color ofRGB(float r, float g, float b) {
         return ofRGBA(r, g, b, 1f);
     }
-
+    @LuaWhitelist
     public static Color ofRGB(int r, int g, int b) {
         return ofRGBA(r, g, b, 255);
     }
-
+    @LuaWhitelist
     public static Color ofRGBA(float r, float g, float b, float a) {
         return ofRGBA(
                 (int) (r * 255 + 0.5),
@@ -31,7 +34,7 @@ public final class Color {
                 (int) (a * 255 + 0.5)
         );
     }
-
+    @LuaWhitelist
     public static Color ofRGBA(int r, int g, int b, int a) {
         return new Color(
                 ((a & 0xFF) << 24) |
@@ -40,11 +43,11 @@ public final class Color {
                         (b & 0xFF)
         );
     }
-
+    @LuaWhitelist
     public static Color ofHSB(float hue, float saturation, float brightness) {
         return ofOpaque(HSBtoRGB(hue, saturation, brightness));
     }
-
+    @LuaWhitelist
     public static int HSBtoRGB(float hue, float saturation, float brightness) {
         int r = 0, g = 0, b = 0;
         if (saturation == 0) {
@@ -90,23 +93,23 @@ public final class Color {
         }
         return 0xff000000 | (r << 16) | (g << 8) | b;
     }
-
+    @LuaWhitelist
     public int getColor() {
         return color;
     }
-
+    @LuaWhitelist
     public int getAlpha() {
         return color >> 24 & 0xFF;
     }
-
+    @LuaWhitelist
     public int getRed() {
         return color >> 16 & 0xFF;
     }
-
+    @LuaWhitelist
     public int getGreen() {
         return color >> 8 & 0xFF;
     }
-
+    @LuaWhitelist
     public int getBlue() {
         return color & 0xFF;
     }
@@ -117,6 +120,7 @@ public final class Color {
      * @param factor the higher the value, the brighter the color
      * @return the brighter color
      */
+    @LuaWhitelist
     public Color brighter(double factor) {
         int r = getRed(), g = getGreen(), b = getBlue();
         int i = (int) (1.0 / (1.0 - (1 / factor)));
@@ -138,6 +142,7 @@ public final class Color {
      * @param factor the higher the value, the darker the color
      * @return the darker color
      */
+    @LuaWhitelist
     public Color darker(double factor) {
         return ofRGBA(Math.max((int) (getRed() * (1 / factor)), 0),
                 Math.max((int) (getGreen() * (1 / factor)), 0),

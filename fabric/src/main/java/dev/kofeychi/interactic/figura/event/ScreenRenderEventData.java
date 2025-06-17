@@ -17,10 +17,21 @@ public class ScreenRenderEventData {
     @LuaFieldDoc("screen_render_event.amount")
     public double delta;
 
+    @LuaWhitelist
+    public FiguraVec2 getPosition() {
+        return position;
+    }
+
+    @LuaWhitelist
+    public double getDelta() {
+        return delta;
+    }
+
     public ScreenRenderEventData(InteractionScreen.RenderData event) {
         this.position = FiguraVec2.of(event.mouseX(), event.mouseY());
         this.delta = event.delta();
     }
+
 
     @Override
     public String toString() {

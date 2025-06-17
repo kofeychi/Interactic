@@ -12,6 +12,7 @@ public class MouseDraggedEventData {
     @LuaWhitelist
     @LuaFieldDoc("mouse_drag_event.position")
     public FiguraVec2 position;
+
     @LuaWhitelist
     @LuaFieldDoc("mouse_drag_event.delta")
     public FiguraVec2 delta;
@@ -19,6 +20,21 @@ public class MouseDraggedEventData {
     @LuaWhitelist
     @LuaFieldDoc("mouse_drag_event.button")
     public int button;
+
+    @LuaWhitelist
+    public FiguraVec2 getPosition() {
+        return position;
+    }
+
+    @LuaWhitelist
+    public FiguraVec2 getDelta() {
+        return delta;
+    }
+
+    @LuaWhitelist
+    public int getButton() {
+        return button;
+    }
 
     public MouseDraggedEventData(InteractionScreen.MouseDraggedData event) {
         this.position = FiguraVec2.of(event.mouseX(), event.mouseY());
