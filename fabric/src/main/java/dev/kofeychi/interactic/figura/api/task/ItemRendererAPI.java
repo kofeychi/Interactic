@@ -9,8 +9,8 @@ import org.figuramc.figura.lua.docs.LuaTypeDoc;
 @LuaWhitelist
 @LuaTypeDoc(name = "ItemRenderer", value = "itemr")
 public class ItemRendererAPI extends RenderAPIContainer {
-    public ItemRendererAPI(DrawAPI parent) {
-        super(parent);
+    public ItemRendererAPI(DrawAPI parent,String name) {
+        super(parent,name);
     }
 
     @Override

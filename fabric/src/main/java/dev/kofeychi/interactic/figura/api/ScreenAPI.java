@@ -149,6 +149,18 @@ public class ScreenAPI {
         var win = MinecraftClient.getInstance().getWindow();
         return FiguraVec2.of(win.getX(),win.getY());
     }
+    @LuaWhitelist
+    @LuaMethodDoc(
+            overloads = {
+            },
+            value = "screen.getInteractionScreen"
+    )
+    public InteractionScreen getInteractionScreen() {
+        if(!canExecute()){
+            return null;
+        }
+        return (InteractionScreen)MinecraftClient.getInstance().currentScreen;
+    }
 
 
     public boolean hasScreen() {

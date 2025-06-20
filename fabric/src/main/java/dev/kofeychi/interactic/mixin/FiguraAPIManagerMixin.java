@@ -4,6 +4,7 @@ import dev.kofeychi.interactic.Interactic;
 import dev.kofeychi.interactic.figura.api.DrawAPI;
 import dev.kofeychi.interactic.figura.api.ScreenAPI;
 import dev.kofeychi.interactic.figura.event.*;
+import dev.kofeychi.interactic.screen.InteractionScreen;
 import dev.kofeychi.interactic.util.Classes;
 import dev.kofeychi.interactic.util.Color;
 import org.figuramc.figura.lua.FiguraAPIManager;
@@ -33,6 +34,7 @@ public class FiguraAPIManagerMixin {
                     WHITELISTED_CLASSES.add(entry)
             );
             WHITELISTED_CLASSES.add(Color.class);
+            WHITELISTED_CLASSES.add(InteractionScreen.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

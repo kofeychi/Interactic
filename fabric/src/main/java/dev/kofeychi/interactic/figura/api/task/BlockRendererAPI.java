@@ -10,27 +10,39 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.BlockPos;
 import org.figuramc.figura.lua.LuaWhitelist;
+import org.figuramc.figura.lua.api.world.BlockStateAPI;
 import org.figuramc.figura.lua.docs.LuaTypeDoc;
 import org.figuramc.figura.math.matrix.FiguraMat4;
 import org.figuramc.figura.math.vector.FiguraVec2;
 import org.figuramc.figura.utils.LuaUtils;
 import org.figuramc.figura.utils.RenderUtils;
 import org.figuramc.figura.utils.TextUtils;
+import org.luaj.vm2.LuaError;
 
 @LuaWhitelist
 @LuaTypeDoc(name = "BlockRenderer", value = "blockr")
 public class BlockRendererAPI extends RenderAPIContainer {
     public BlockState block;
 
-
-    public BlockRendererAPI(DrawAPI parent) {
-        super(parent);
+    public BlockRendererAPI(DrawAPI parent, String name) {
+        super(parent, name);
     }
 
     @Override
     protected void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumer) {
-
+        try {
+            MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(
+                    this.block,
+                    matrixStack,
+                    vertexConsumer,
+                    light,
+                    overlay
+            );
+        } catch (Exception e) {
+            throw new LuaError("Failed to render block: " + this.block + " : " + e.getMessage());
+        }
     }
 
 
@@ -39,21 +51,9 @@ public class BlockRendererAPI extends RenderAPIContainer {
         this.block = LuaUtils.parseBlockState("setBlock",block);
         return this;
     }
-
     @LuaWhitelist
-    public BlockRendererAPI drawBlock(FiguraMat4 mat) {
-        if(!rendering) {return this;}
-        var stack = new MatrixStack();
-        stack.push();
-        stack.peek().getPositionMatrix().set(mat.toMatrix4f());
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(
-                this.block,
-                stack,
-                parent.ctx.getVertexConsumers(),
-                light,
-                overlay
-        );
-        return this;
+    public BlockStateAPI getBlock() {
+        return new BlockStateAPI(block,new BlockPos(0,0,0));
     }
     @Override
     public String toString() {

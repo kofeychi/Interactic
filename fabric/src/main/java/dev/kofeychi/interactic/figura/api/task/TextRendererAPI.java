@@ -17,8 +17,8 @@ import org.figuramc.figura.utils.TextUtils;
 public class TextRendererAPI extends RenderAPIContainer{
     public final TextRenderer textRenderer;
 
-    public TextRendererAPI(DrawAPI parent) {
-        super(parent);
+    public TextRendererAPI(DrawAPI parent,String name) {
+        super(parent,name);
         textRenderer = MinecraftClient.getInstance().textRenderer;
     }
 

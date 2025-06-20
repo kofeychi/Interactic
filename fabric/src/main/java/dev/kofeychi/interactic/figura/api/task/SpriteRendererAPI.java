@@ -9,8 +9,8 @@ import org.figuramc.figura.lua.docs.LuaTypeDoc;
 @LuaWhitelist
 @LuaTypeDoc(name = "SpriteRenderer", value = "spriter")
 public class SpriteRendererAPI extends RenderAPIContainer {
-    public SpriteRendererAPI(DrawAPI parent) {
-        super(parent);
+    public SpriteRendererAPI(DrawAPI parent,String name) {
+        super(parent,name);
     }
 
     @Override

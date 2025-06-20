@@ -22,14 +22,11 @@ import org.figuramc.figura.utils.LuaUtils;
 
 @LuaWhitelist
 @LuaTypeDoc(name = "RenderAPIContainedHowDidYouGetThisReportThisPlsIBegYou", value = "rapic")
-public abstract class RenderAPIContainer {
-    public final DrawAPI parent;
-    public boolean rendering = true;
-    public ClampedInt opacity = new ClampedInt(0,100);
+public abstract class RenderAPIContainer extends Renderable{
+    public DrawAPI parent;
     public Avatar owner;
-    public FiguraMat4 pos = new FiguraMat4();
 
-    public FiguraMat4 normal = new FiguraMat4();
+    public String name = "NOT IMPLEMENTED";
 
     public int light = 0;
     public int overlay = 0;
@@ -58,9 +55,10 @@ public abstract class RenderAPIContainer {
         return stack;
     }
 
-    public RenderAPIContainer(DrawAPI parent) {
+    public RenderAPIContainer(DrawAPI parent,String name) {
         this.parent = parent;
-        this.owner = parent.owner;
+        //this.owner = parent.owner;
+        this.name = name;
     }
 
     @LuaWhitelist
@@ -123,113 +121,10 @@ public abstract class RenderAPIContainer {
         return this;
     }
 
-    @LuaWhitelist
-    public RenderAPIContainer setOpacity(int opacity) {
-        this.opacity.set(opacity);
-        verify();
-        return this;
-    }
-    @LuaWhitelist
-    public int getOpacity() {
-        return opacity.get();
-    }
-    @LuaWhitelist
-    public RenderAPIContainer setRendering(boolean rendering) {
-        this.rendering = rendering;
-        return this;
-    }
-    @LuaWhitelist
-    public boolean isRendering() {
-        return rendering;
-    }
-    private void verify() {
-        if(opacity.get() <= 0) {
-            rendering = false; // save up time so dont friggin render it
-        }
-    }
 
     public void render(){
         render(toStack(pos,normal),parent.ctx.getVertexConsumers());
     }
 
     protected abstract void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumer);
-
-    @LuaWhitelist
-    public FiguraMat4 getNormalMat() {
-        return normal;
-    }
-
-    @LuaWhitelist
-    public RenderAPIContainer setNormalMat(FiguraMat4 normal) {
-        this.normal = normal;
-        return this;
-    }
-
-    @LuaWhitelist
-    public FiguraMat4 getPosMat() {
-        return pos;
-    }
-
-    @LuaWhitelist
-    public RenderAPIContainer setPosMat(FiguraMat4 pos) {
-        this.pos = pos;
-        return this;
-    }
-    @LuaWhitelist
-    @LuaMethodDoc(
-            overloads = {
-                    @LuaMethodOverload(
-                            argumentTypes = FiguraVec3.class,
-                            argumentNames = "scale"
-                    ),
-                    @LuaMethodOverload(
-                            argumentTypes = {Double.class, Double.class, Double.class},
-                            argumentNames = {"x", "y", "z"}
-                    )
-            },
-            value = "rapic.set_scale"
-    )
-    public RenderAPIContainer setScale(Object x, Double y, Double z) {
-        FiguraVec3 vec = LuaUtils.parseOneArgVec("setScale", x, y, z, 1d);
-        pos.scale(vec);
-        return this;
-    }
-    @LuaWhitelist
-    @LuaMethodDoc(
-            overloads = {
-                    @LuaMethodOverload(
-                            argumentTypes = FiguraVec3.class,
-                            argumentNames = "rot"
-                    ),
-                    @LuaMethodOverload(
-                            argumentTypes = {Double.class, Double.class, Double.class},
-                            argumentNames = {"x", "y", "z"}
-                    )
-            },
-            value = "rapic.set_rot"
-    )
-    public RenderAPIContainer setRot(Object x, Double y, Double z) {
-        FiguraVec3 vec = LuaUtils.parseOneArgVec("setRot", x, y, z, 1d);
-        pos.rotate(vec.x, vec.y, vec.z);
-        return this;
-    }
-    @LuaWhitelist
-    @LuaMethodDoc(
-            overloads = {
-                    @LuaMethodOverload(
-                            argumentTypes = FiguraVec3.class,
-                            argumentNames = "rot"
-                    ),
-                    @LuaMethodOverload(
-                            argumentTypes = {Double.class, Double.class, Double.class},
-                            argumentNames = {"x", "y", "z"}
-                    )
-            },
-            value = "rapic.set_pos"
-    )
-    public RenderAPIContainer setPos(Object x, Double y, Double z) {
-        FiguraVec3 vec = LuaUtils.parseOneArgVec("setPos", x, y, z, 1d);
-        pos.translate(vec);
-        return this;
-    }
 }

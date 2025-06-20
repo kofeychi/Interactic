@@ -1,12 +1,12 @@
-package dev.kofeychi.interactic.figura.api.task;
+package dev.kofeychi.interactic.figura.api;
 
-import dev.kofeychi.interactic.figura.api.DrawAPI;
+import dev.kofeychi.interactic.figura.api.task.RenderAPIContainer;
+import dev.kofeychi.interactic.figura.api.task.Renderable;
 import dev.kofeychi.interactic.util.Color;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import org.figuramc.figura.lua.LuaWhitelist;
-import org.figuramc.figura.lua.api.world.BlockStateAPI;
 import org.figuramc.figura.lua.docs.LuaMethodDoc;
 import org.figuramc.figura.lua.docs.LuaMethodOverload;
 import org.figuramc.figura.lua.docs.LuaTypeDoc;
@@ -16,16 +16,17 @@ import org.figuramc.figura.math.vector.FiguraVec4;
 
 @LuaWhitelist
 @LuaTypeDoc(name = "DrawContext", value = "dctx")
-public class DrawContextAPI extends RenderAPIContainer {
-    private DrawContext ctx;
+public class DrawContextAPI extends Renderable {
+    private final DrawContext ctx;
+
     public DrawContextAPI(DrawAPI parent) {
-        super(parent);
         ctx = parent.ctx;
     }
 
-    @Override
-    protected void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumer) {
-
+    private void applymatrices(){
+        var peek = ctx.getMatrices().peek();
+        peek.getPositionMatrix().set(pos.toMatrix4f());
+        peek.getNormalMatrix().set(normal.toMatrix4f());
     }
 
     public static Color toColor(FiguraVec3 vec) {
@@ -133,6 +134,7 @@ public class DrawContextAPI extends RenderAPIContainer {
         return this;
     }
     public void fill(FiguraVec2 vec1,FiguraVec2 vec2,int z,FiguraVec4 color) {
+        applymatrices();
         ctx.fill((int) vec1.x, (int) vec1.y, (int) vec2.x, (int) vec2.y,z,toColor(color).getColor());
     }
     @Override
