@@ -1,6 +1,7 @@
 package dev.kofeychi.interactic.figura.api;
 
 import dev.kofeychi.interactic.figura.api.task.BlockRendererAPI;
+import dev.kofeychi.interactic.figura.api.task.ItemRendererAPI;
 import dev.kofeychi.interactic.figura.api.task.RenderAPIContainer;
 import org.figuramc.figura.lua.LuaWhitelist;
 import org.figuramc.figura.lua.docs.LuaMethodDoc;
@@ -44,9 +45,25 @@ public class TaskAPI {
         }
     }
     @LuaWhitelist
-    public RenderAPIContainer newBlockTask(String name) {
+    public BlockRendererAPI newBlockTask(String name) {
         var task = new BlockRendererAPI(parent,name);
         tasks.put(name,task);
         return task;
+    }
+    @LuaWhitelist
+    public ItemRendererAPI newItemTask(String name) {
+        var task = new ItemRendererAPI(parent,name);
+        tasks.put(name,task);
+        return task;
+    }
+    @LuaWhitelist
+    public RenderAPIContainer setTask(String name,RenderAPIContainer task) {
+        tasks.put(name,task);
+        return task;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 }

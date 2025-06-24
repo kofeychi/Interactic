@@ -5,6 +5,7 @@ import org.figuramc.figura.lua.LuaWhitelist;
 import org.figuramc.figura.lua.docs.LuaMethodDoc;
 import org.figuramc.figura.lua.docs.LuaMethodOverload;
 import org.figuramc.figura.lua.docs.LuaTypeDoc;
+import org.figuramc.figura.math.matrix.FiguraMat3;
 import org.figuramc.figura.math.matrix.FiguraMat4;
 import org.figuramc.figura.math.vector.FiguraVec3;
 import org.figuramc.figura.utils.LuaUtils;
@@ -12,11 +13,14 @@ import org.figuramc.figura.utils.LuaUtils;
 @LuaWhitelist
 @LuaTypeDoc(name = "RenderableHowDidYouGetThisReportThisPlsIBegYou", value = "renderable")
 public class Renderable {
+    @LuaWhitelist
     public boolean rendering = true;
+    @LuaWhitelist
     public ClampedInt opacity = new ClampedInt(0,100);
-
+    @LuaWhitelist
     public FiguraMat4 pos = new FiguraMat4();
-    public FiguraMat4 normal = new FiguraMat4();
+    @LuaWhitelist
+    public FiguraMat3 normal = new FiguraMat3();
 
     @LuaWhitelist
     public boolean isRendering() {
@@ -45,12 +49,12 @@ public class Renderable {
     }
 
     @LuaWhitelist
-    public FiguraMat4 getNormalMat() {
+    public FiguraMat3 getNormalMat() {
         return normal;
     }
 
     @LuaWhitelist
-    public Renderable setNormalMat(FiguraMat4 normal) {
+    public Renderable setNormalMat(FiguraMat3 normal) {
         this.normal = normal;
         return this;
     }

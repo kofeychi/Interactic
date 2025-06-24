@@ -19,7 +19,12 @@ public class SpriteRendererAPI extends RenderAPIContainer {
     }
 
     @Override
+    public boolean shouldRender() {
+        return false;
+    }
+
+    @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return super.toString();
     }
 }

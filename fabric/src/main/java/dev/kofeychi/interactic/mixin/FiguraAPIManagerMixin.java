@@ -1,5 +1,6 @@
 package dev.kofeychi.interactic.mixin;
 
+import dev.kofeychi.interactic.FiguraPlugin;
 import dev.kofeychi.interactic.Interactic;
 import dev.kofeychi.interactic.figura.api.DrawAPI;
 import dev.kofeychi.interactic.figura.api.ScreenAPI;
@@ -30,11 +31,7 @@ public class FiguraAPIManagerMixin {
 
     static {
         try {
-            Classes.getClasses("dev.kofeychi.interactic.figura", Interactic.class.getClassLoader()).forEach(entry ->
-                    WHITELISTED_CLASSES.add(entry)
-            );
-            WHITELISTED_CLASSES.add(Color.class);
-            WHITELISTED_CLASSES.add(InteractionScreen.class);
+            WHITELISTED_CLASSES.addAll(new FiguraPlugin().getWhitelistedClasses());
         } catch (Exception e) {
             e.printStackTrace();
         }

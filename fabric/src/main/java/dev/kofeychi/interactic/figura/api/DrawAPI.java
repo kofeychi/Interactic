@@ -20,7 +20,7 @@ import org.figuramc.figura.utils.TextUtils;
 @LuaWhitelist
 @LuaTypeDoc(name = "DrawAPI", value = "draw")
 public class DrawAPI {
-    public final Avatar owner;
+    public Avatar owner;
     public final DrawContext ctx;
     public final RenderTickCounter counter;
     public TaskAPI task;
@@ -29,7 +29,6 @@ public class DrawAPI {
     public DrawAPI(DrawContext context, RenderTickCounter counter) {
         ctx = context;
         this.counter = counter;
-        this.owner = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
         drawContextAPI = new DrawContextAPI(this);
     }
     @LuaWhitelist

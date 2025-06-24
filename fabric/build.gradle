@@ -9,6 +9,16 @@ architectury {
 
 loom {
     accessWidenerPath = file("src/main/resources/interactic.accesswidener");
+    runs {
+        client {
+            vmArgs("-XX:+IgnoreUnrecognizedVMOptions", "-XX:+AllowEnhancedClassRedefinition", "-XX:+EnableDynamicAgentLoading")
+            runDir = 'run'
+        }
+
+        server {
+            runDir = 'run_server'
+        }
+    }
 }
 
 configurations {

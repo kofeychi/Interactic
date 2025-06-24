@@ -27,6 +27,11 @@ public class TextRendererAPI extends RenderAPIContainer{
 
     }
 
+    @Override
+    public boolean shouldRender() {
+        return false;
+    }
+
     @LuaWhitelist
     public int getTextWidth(String text) {
         return textRenderer.getWidth(TextUtils.tryParseJson(text));
@@ -47,8 +52,9 @@ public class TextRendererAPI extends RenderAPIContainer{
         );
         return this;
     }
+
     @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return super.toString();
     }
 }

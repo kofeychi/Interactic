@@ -159,6 +159,9 @@ public class ScreenAPI {
         if(!canExecute()){
             return null;
         }
+        if(!(MinecraftClient.getInstance().currentScreen instanceof InteractionScreen)){
+            setScreenToInteractic();
+        }
         return (InteractionScreen)MinecraftClient.getInstance().currentScreen;
     }
 

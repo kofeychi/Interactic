@@ -45,6 +45,11 @@ public class BlockRendererAPI extends RenderAPIContainer {
         }
     }
 
+    @Override
+    public boolean shouldRender() {
+        return block != null&&!block.isAir();
+    }
+
 
     @LuaWhitelist
     public BlockRendererAPI setBlock(Object block) {
@@ -57,6 +62,6 @@ public class BlockRendererAPI extends RenderAPIContainer {
     }
     @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return super.toString();
     }
 }

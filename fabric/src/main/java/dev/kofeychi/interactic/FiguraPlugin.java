@@ -4,6 +4,7 @@ import dev.kofeychi.interactic.figura.api.DrawAPI;
 import dev.kofeychi.interactic.figura.api.ScreenAPI;
 import dev.kofeychi.interactic.figura.event.*;
 import dev.kofeychi.interactic.screen.InteractionScreen;
+import dev.kofeychi.interactic.util.ClampedInt;
 import dev.kofeychi.interactic.util.Classes;
 import dev.kofeychi.interactic.util.Color;
 import dev.kofeychi.interactic.util.ContiniousArrayList;
@@ -46,6 +47,7 @@ public class FiguraPlugin implements FiguraAPI {
             classes.add(FiguraPlugin.class);
             classes.add(Color.class);
             classes.add(InteractionScreen.class);
+            classes.add(ClampedInt.class);
             return classes;
         } catch (Exception e) {
             e.printStackTrace();

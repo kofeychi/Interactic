@@ -3,10 +3,12 @@ package dev.kofeychi.interactic.render;
 import net.minecraft.client.gui.DrawContext;
 import org.joml.Vector2i;
 
+import java.util.Optional;
+
 public class WindowFrameRenderer {
-    public static void draw(DrawContext context, int X, int Y, int width, int height) {
+    public static void draw(DrawContext context, int X, int Y, int width, int height, Optional<Boolean> over) {
         int bs = 3;
-        Vector2i pos = new Vector2i(0,0);
+        Vector2i pos = new Vector2i(0, over.map(aBoolean -> aBoolean ? 9 : 0).orElse(0));
         context.fill(
                 X+bs,
                 Y+bs,

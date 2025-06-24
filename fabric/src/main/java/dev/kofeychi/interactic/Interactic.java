@@ -16,20 +16,20 @@ public class Interactic implements ModInitializer {
         FiguraPlugin.init();
     }
 
-    public static void run(Function<Events, LuaEvent> event, Object... objects) {
+    public static void run(Function<Events, LuaEvent> event, Function<Avatar, Avatar.Instructions> instructions,Object... objects) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
         if(avatar == null||avatar.luaRuntime == null) {
             return;
         }
         LuaEvent Event = event.apply(((Events) avatar.luaRuntime.events));
-        avatar.run(Event, avatar.tick,objects);
+        avatar.run(Event, instructions.apply(avatar),objects);
     }
-    public static void run(Object runnable, Object... objects) {
+    public static void run(Object runnable, Function<Avatar, Avatar.Instructions> instructions,Object... objects) {
         Avatar avatar = AvatarManager.getAvatarForPlayer(FiguraMod.getLocalPlayerUUID());
         if(avatar == null||avatar.luaRuntime == null) {
             return;
         }
-        avatar.run(runnable, avatar.tick,objects);
+        avatar.run(runnable, instructions.apply(avatar),objects);
     }
     public static Identifier of(String id) {
         return Identifier.of("interactic", id);

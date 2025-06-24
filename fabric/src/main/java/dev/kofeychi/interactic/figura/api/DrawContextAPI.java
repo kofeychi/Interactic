@@ -26,7 +26,7 @@ public class DrawContextAPI extends Renderable {
     private void applymatrices(){
         var peek = ctx.getMatrices().peek();
         peek.getPositionMatrix().set(pos.toMatrix4f());
-        peek.getNormalMatrix().set(normal.toMatrix4f());
+        peek.getNormalMatrix().set(normal.toMatrix3f());
     }
 
     public static Color toColor(FiguraVec3 vec) {

@@ -1,10 +1,17 @@
 package dev.kofeychi.interactic.util;
 
 
-public class ClampedInt extends ClampedNumber<Integer> {
-    public int value = 0;
+import org.figuramc.figura.lua.LuaWhitelist;
+import org.figuramc.figura.lua.docs.LuaTypeDoc;
 
+@LuaWhitelist
+@LuaTypeDoc(name = "ClampedInt",value = "cint")
+public class ClampedInt extends ClampedNumber<Integer> {
+    @LuaWhitelist
+    public int value = 0;
+    @LuaWhitelist
     public int bottomBound = 0;
+    @LuaWhitelist
     public int topBound = 0;
 
     public ClampedInt(int bottomBound, int topBound) {
@@ -35,5 +42,14 @@ public class ClampedInt extends ClampedNumber<Integer> {
         if(value > topBound){
             value = topBound;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ClampedInt{" +
+                "value=" + value +
+                ", bottomBound=" + bottomBound +
+                ", topBound=" + topBound +
+                '}';
     }
 }

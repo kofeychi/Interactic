@@ -4,10 +4,13 @@
   "package": "dev.kofeychi.interactic.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AvatarReloadListener",
     "EventsMixin",
-    "FiguraAPIManagerMixin"
+    "FiguraAPIManagerMixin",
+    "ServerTickEventMixin"
   ],
   "client": [
+    "ClientTickEventMixin"
   ],
   "injectors": {
     "defaultRequire": 1
